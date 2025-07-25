@@ -14,6 +14,8 @@ in
   home.username = userSettings.username;
   home.homeDirectory = "/home/"+userSettings.username;
 
+  services.ssh-agent.enable = true;
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
