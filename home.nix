@@ -89,7 +89,7 @@ in
 
   programs.waybar = {
     enable = true;
-    config = ./waybar/config;
+    settings = import ./waybar/config.nix;
     style = ./waybar/style.css;
   };
 
