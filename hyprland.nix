@@ -22,9 +22,9 @@ in
         "busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Temperature q 5000"
       ];
       general = { # https://wiki.hypr.land/Configuring/Variables/#general
-        border_size = 1;
-        gaps_in = 5;
-        gaps_out = 20;
+        border_size = 2;
+        gaps_in = 2;
+        gaps_out = 10;
         #float_gaps = 0;
         gaps_workspaces = 0;
         #col.active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
@@ -56,14 +56,38 @@ in
 
       animations = { # https://wiki.hypr.land/Configuring/Variables/#animations
         enabled = true;
-          
+
+        bezier = [
+          "easeOutQuint,0.23,1,0.32,1"
+          "easeInOutCubic,0.65,0.05,0.36,1"
+          "linear,0,0,1,1"
+          "almostLinear,0.5,0.5,0.75,1.0"
+          "quick,0.15,0,0.1,1"
+        ];
+
+        animation = [
+          "global, 1, 10, default"
+          "border, 1, 5.39, easeOutQuint"
+          "windows, 1, 4.79, easeOutQuint"
+          "windowsIn, 1, 4.1, easeOutQuint, popin 87%"
+          "windowsOut, 1, 1.49, linear, popin 87%"
+          "fadeIn, 1, 1.73, almostLinear"
+          "fadeOut, 1, 1.46, almostLinear"
+          "fade, 1, 3.03, quick"
+          "layers, 1, 3.81, easeOutQuint"
+          "layersIn, 1, 4, easeOutQuint, fade"
+          "layersOut, 1, 1.5, linear, fade"
+          "fadeLayersIn, 1, 1.79, almostLinear"
+          "fadeLayersOut, 1, 1.39, almostLinear"
+          "workspaces, 1, 1.94, almostLinear, fade"
+          "workspacesIn, 1, 1.21, almostLinear, fade"
+          "workspacesOut, 1, 1.94, almostLinear, fade"
+        ];
       };
 
       input = { # https://wiki.hyprland.org/Configuring/Variables/#input
         kb_layout = systemSettings.keyboard;
-        kb_options = [
-          "caps:swapescape"
-        ];
+        kb_options = "caps:swapescape,altwin:swap_lalt_lwin";
         numlock_by_default = false;
         follow_mouse = 1;
         sensitivity = 0;
@@ -102,23 +126,32 @@ in
       };
       
       # See https://wiki.hyprland.org/Configuring/Keywords/
-      "$mainMod" = "ALT";
-
-      # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-      bind = [
-        "mainMod, Q, exec, $terminal"
-        "mainMod, C, killactive,"
-        "mainMod, M, exit,"
-        "mainMod, E, exec, $fileManager"
-        "mainMod, V, togglefloating,"
-        "mainMod, space, exec, $menu"
-        "mainMod, P, pseudo, # dwindle"
-        "mainMod, J, togglesplit, # dwindle"
+      "$mainMod" = "SUPER"; 
+                         
+      # Example binds, s ee https://wiki.hyprland.org/Configuring/Binds/ for more
+      bind = [           
+        "$mainMod, Q, exec, $terminal"
+        "$mainMod, C, killactive,"
+        "$mainMod, M, exit,"
+        "$mainMod, E, exec, $fileManager"
+        "$mainMod, V, togglefloating,"
+        "$mainMod, space, exec, $menu"
+        "$mainMod, P, pseudo, # dwindle"
+        "$mainMod, G, togglesplit, # dwindle"
+        "$mainMod, F, fullscreen, 0"
         
         "$mainMod, H, movefocus, l"
         "$mainMod, L, movefocus, r"
         "$mainMod, K, movefocus, u"
         "$mainMod, J, movefocus, d"
+
+        "$mainMod SHIFT, H, movewindow, l"
+        "$mainMod SHIFT, L, movewindow, r"
+        "$mainMod SHIFT, K, movewindow, u"
+        "$mainMod SHIFT, J, movewindow, d"
+
+        "$mainMod, N, exec, sh -c 'busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n 100'"
+        "$mainMod SHIFT, N, exec, sh -c 'busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n 100'"
 
         "$mainMod, 1, workspace, 1"
         "$mainMod, 2, workspace, 2"
@@ -166,7 +199,6 @@ in
         ",XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
       ];
 
-      # Requires playerctl
       bindl = [
         ", XF86AudioNext, exec, playerctl next"
         ", XF86AudioPause, exec, playerctl play-pause"
@@ -182,34 +214,6 @@ in
       }
 
       # https://wiki.hyprland.org/Configuring/Variables/#animations
-      animations {
-          enabled = yes, please :)
-
-          # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-
-          bezier = easeOutQuint,0.23,1,0.32,1
-          bezier = easeInOutCubic,0.65,0.05,0.36,1
-          bezier = linear,0,0,1,1
-          bezier = almostLinear,0.5,0.5,0.75,1.0
-          bezier = quick,0.15,0,0.1,1
-
-          animation = global, 1, 10, default
-          animation = border, 1, 5.39, easeOutQuint
-          animation = windows, 1, 4.79, easeOutQuint
-          animation = windowsIn, 1, 4.1, easeOutQuint, popin 87%
-          animation = windowsOut, 1, 1.49, linear, popin 87%
-          animation = fadeIn, 1, 1.73, almostLinear
-          animation = fadeOut, 1, 1.46, almostLinear
-          animation = fade, 1, 3.03, quick
-          animation = layers, 1, 3.81, easeOutQuint
-          animation = layersIn, 1, 4, easeOutQuint, fade
-          animation = layersOut, 1, 1.5, linear, fade
-          animation = fadeLayersIn, 1, 1.79, almostLinear
-          animation = fadeLayersOut, 1, 1.39, almostLinear
-          animation = workspaces, 1, 1.94, almostLinear, fade
-          animation = workspacesIn, 1, 1.21, almostLinear, fade
-          animation = workspacesOut, 1, 1.94, almostLinear, fade
-      }
 
       # Ref https://wiki.hyprland.org/Configuring/Workspace-Rules/
       # "Smart gaps" / "No gaps when only"
