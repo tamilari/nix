@@ -34,11 +34,6 @@
     LC_TIME = systemSettings.locale;
   };
 
-  services.xserver.xkb = {
-    layout = systemSettings.keyboard;
-    variant = "";
-  };
-
   console.keyMap = systemSettings.keyboard;
 
   users.users.${userSettings.username} = {
@@ -51,6 +46,11 @@
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCkVcLdjykFQR58sSfQbyfayn44C4YV9UUkXtJwdAIxMq+kv9ieXvB1jlnFU7QnZA0J76QXRN9xE7fERrGoRYIJJEGnvtFv0GUqDFAw5l0kXmG3lRcPCBRXFW+GWZlGUUFXOjTI5wyI/bXarxLDM8QvVE0oVMV80KE1Vglr1UEeKCvrH3+aWQjUW5GwNB7RefxO3f86U4LDqESL+XM3iVQ9ji80/nrY7zemj7nJ3GViEbYatcttbwW9u2gPgnZfR/fs/FAsFAyMy/kIqeCnlZE6taZ4kl7Fpji0lfFTHPa4CCG6WT1qn7Z4YZZTBDfsMZQU7sxBzjVxLocA8PbylEbFuPQG2l1cJ5r+/LaD58frEzTLAPLuhkQSfmQhLpx42FNxSfZMJq3WOVxdetRvm78KVi49rr5EJmPZrztmTL70W0cxEzrBHlwm4hjuc75kfT6gQvCB8bROq9d5iOeqPdeJD9QkOJ/0z5cPJigfh3Xk5RmNKgL2IN8Jsw/YKq9tekU= tamino"
     ];
   };
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-emoji
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -73,6 +73,13 @@
     kitty
     rofi-wayland
     wofi
+    brightnessctl
+    playerctl
+    wl-clipboard
+    grim
+    slurp
+    hyprpicker
+    swappy
   ];
 
   programs.hyprland.enable = true;
@@ -87,12 +94,27 @@
 
   # List services that you want to enable:
 
-  services.openssh = {
-    enable = true;
-    # require public key authentication for better security
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.PermitRootLogin = "no";
+
+  
+  services = {
+    xserver.xkb = {
+      layout = systemSettings.keyboard;
+      variant = "";
+    };
+
+    openssh = {
+      enable = true;
+      # require public key authentication for better security
+      settings.PasswordAuthentication = false;
+      settings.KbdInteractiveAuthentication = false;
+      settings.PermitRootLogin = "no";
+    };
+
+    #xdg.portal = {
+    #  enable = true;
+    #  wlr.enable = true;
+    #  extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    #};
   };
 
   # Open ports in the firewall.

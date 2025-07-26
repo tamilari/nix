@@ -1,7 +1,7 @@
 {
 	description = "Taminos flake";
 
-	outputs = { self, nixpkgs, home-manager, ... }:
+	outputs = { self, nixpkgs, home-manager, ... }: #hyprland
 		let
       systemSettings = {
         system = "x86_64-linux";
@@ -28,6 +28,7 @@
           specialArgs = {
             inherit systemSettings;
             inherit userSettings;
+            #inherit inputs;
           };
         };
       };
@@ -39,6 +40,7 @@
           extraSpecialArgs = {
             inherit systemSettings;
             inherit userSettings;
+            #inherit inputs;
           };
         };
 		  };
@@ -46,7 +48,13 @@
 
   inputs = {
 		nixpkgs.url = "nixpkgs/nixos-25.05";
-		home-manager.url = "github:nix-community/home-manager/release-25.05";
-		home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    #hyprland = {
+    #  url = "github:hyprwm/Hyprland";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
 	};
 }
