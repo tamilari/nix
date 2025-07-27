@@ -1,4 +1,4 @@
-{ config, pkgs, systemSettings, userSettings, ... }:
+{ config, pkgs, lib, systemSettings, userSettings, nixpkgs, home-manager, hyprland, ... }:
 let
   myAliases = {
     "ll" = "ls -l";
@@ -21,7 +21,14 @@ in
 
   imports = [
     ./git.nix
-    ./hyprland.nix
+    #./hyprland.nix
+    ({ config, pkgs, lib, systemSettings, hyprland, ... }:
+      import ./hyprland.nix {
+        inherit config pkgs lib systemSettings hyprland;
+        # You will also need to pass userSettings if hyprland.nix uses it, e.g.:
+        # inherit userSettings;
+      }
+    )
   ];
 
   # This value determines the Home Manager release that your configuration is

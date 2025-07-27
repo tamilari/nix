@@ -1,4 +1,4 @@
-{ config, pkgs, systemSettings, userSettings, ... }:
+{ config, pkgs, systemSettings, userSettings, nixpkgs, home-manager, hyprland, ... }:
 
 {
   imports =
@@ -82,7 +82,19 @@
     swappy
   ];
 
-  programs.hyprland.enable = true;
+  #programs.hyprland = {
+  #  enable = true;
+  #  package = inputs.hyprland.packages.${systemSettings.system}.default;
+  #};
+  programs = {
+    hyprland = {
+      enable = true;
+      package = hyprland.packages.${pkgs.system}.hyprland;
+      xwayland = {
+        enable = true;
+      };
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

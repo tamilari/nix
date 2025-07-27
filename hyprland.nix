@@ -1,11 +1,11 @@
-{ config, pkgs, systemSettings, ... }:
+{ config, pkgs, systemSettings, hyprland, ... }:
 let
 
 in
 {
   wayland.windowManager.hyprland = {
     enable = true;
-    settings = { };
+    package = hyprland.packages.${pkgs.system}.hyprland;
     plugins = [ ];
     xwayland.enable = true;
     systemd.enable = true;
@@ -108,8 +108,6 @@ in
       binds = {
 
       };
-
-      xwayland.enabled = true;
 
       render = {
 
@@ -227,13 +225,6 @@ in
         new_status = "slave";
       };
     };
-    extraConfig = ''
-      #general {
-      #    # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
-      #     col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-      #     col.inactive_border = rgba(595959aa)
-      #}
-    '';
   };
 }
 
