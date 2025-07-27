@@ -18,23 +18,22 @@ in
         "waybar"
         "$terminal"
         "firefox"
-        "wl-gammarelay-rs"
-        "busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Temperature q 5000"
+        "sh -c 'wl-gammarelay-rs & sleep 1 && busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Temperature q 3000'"
       ];
       general = { # https://wiki.hypr.land/Configuring/Variables/#general
         border_size = 2;
         gaps_in = 2;
         gaps_out = 10;
-        #float_gaps = 0;
+        float_gaps = 0;
         gaps_workspaces = 0;
-        #col.active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        #col.inactive_border = "rgba(595959aa)";
         layout = "dwindle";
         resize_on_border = true;
         extend_border_grab_area = 15;
         hover_icon_on_border = true;
         allow_tearing = false; # TODO https://wiki.hypr.land/Configuring/Tearing
         resize_corner = 0; # TODO
+        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
       };
 
       decoration = { # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
@@ -139,6 +138,9 @@ in
         "$mainMod, P, pseudo, # dwindle"
         "$mainMod, G, togglesplit, # dwindle"
         "$mainMod, F, fullscreen, 0"
+        "$mainMod, X, exec, pkill -SIGUSR1 waybar"
+        "$mainMod SHIFT, X, exec, sh -c 'pkill waybar && waybar &'"
+        "$mainMod, tab, cyclenext,"
         
         "$mainMod, H, movefocus, l"
         "$mainMod, L, movefocus, r"
@@ -149,9 +151,6 @@ in
         "$mainMod SHIFT, L, movewindow, r"
         "$mainMod SHIFT, K, movewindow, u"
         "$mainMod SHIFT, J, movewindow, d"
-
-        "$mainMod, N, exec, sh -c 'busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n 100'"
-        "$mainMod SHIFT, N, exec, sh -c 'busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n 100'"
 
         "$mainMod, 1, workspace, 1"
         "$mainMod, 2, workspace, 2"
@@ -182,6 +181,10 @@ in
         "$mainMod, mouse_up, workspace, e-1"
       ];
 
+      binde = [
+        "$mainMod, N, exec, sh -c 'busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n -250'"
+        "$mainMod SHIFT, N, exec, sh -c 'busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n 250'"
+      ];
 
       # Move/resize windows with mainMod + LMB/RMB and dragging
       bindm = [
@@ -205,55 +208,31 @@ in
         ", XF86AudioPlay, exec, playerctl play-pause"
         ", XF86AudioPrev, exec, playerctl previous"
       ];
-    };
-    extraConfig = ''
-      general {
-      #    # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
-           col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-           col.inactive_border = rgba(595959aa)
-      }
-
-      # https://wiki.hyprland.org/Configuring/Variables/#animations
-
-      # Ref https://wiki.hyprland.org/Configuring/Workspace-Rules/
-      # "Smart gaps" / "No gaps when only"
-      # uncomment all if you wish to use that.
-      # workspace = w[tv1], gapsout:0, gapsin:0
-      # workspace = f[1], gapsout:0, gapsin:0
-      # windowrule = bordersize 0, floating:0, onworkspace:w[tv1]
-      # windowrule = rounding 0, floating:0, onworkspace:w[tv1]
-      # windowrule = bordersize 0, floating:0, onworkspace:f[1]
-      # windowrule = rounding 0, floating:0, onworkspace:f[1]
-
-      # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-      dwindle {
-          pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-          preserve_split = true # You probably want this
-      }
-
-      # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-      master {
-          new_status = master
-      }
-
-
-
-      ##############################
-      ### WINDOWS AND WORKSPACES ###
-      ##############################
 
       # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
       # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
+      windowrule = [
+        "suppressevent maximize, class:.*" # Ignore maximize requests from apps
+        "nofocus,class:^$,title:^$title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0" # Fix some draggin issues with XWayland
+      ];
 
-      # Example windowrule
-      # windowrule = float,class:^(kitty)$,title:^(kitty)$
-
-      # Ignore maximize requests from apps. You'll probably like this.
-      windowrule = suppressevent maximize, class:.*
-
-      # Fix some dragging issues with XWayland
-      windowrule = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
-
+      # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
+      dwindle = {
+        pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P
+        preserve_split = true;
+      };
+      
+      # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+      master = {
+        new_status = "slave";
+      };
+    };
+    extraConfig = ''
+      #general {
+      #    # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
+      #     col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+      #     col.inactive_border = rgba(595959aa)
+      #}
     '';
   };
 }
