@@ -80,7 +80,10 @@
     slurp
     hyprpicker
     swappy
-    greetd.tuigreet
+    #where-is-my-sddm-theme
+    #sddm-astronaut
+    #catppuccin-sddm-corners
+    #sddm-chili-theme
   ];
 
   #programs.hyprland = {
@@ -95,8 +98,6 @@
         enable = true;
       };
     };
-
-    regreet.enable = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -112,9 +113,22 @@
 
   
   services = {
-    xserver.xkb = {
-      layout = systemSettings.keyboard;
-      variant = "";
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = systemSettings.keyboard;
+        variant = "";
+      };
+    };
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+      #theme = "where_is_my_sddm_theme";
+      #theme = "sddm_astronaut";
+      #theme = "catppuccin-sddm-corners";
+      #theme = "sddm-chili-theme";
+
+      package = pkgs.kdePackages.sddm;
     };
 
     openssh = {
@@ -145,16 +159,6 @@
     #    default_session.command = "uwsm start select";
     #  };
     #};
-
-    greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd Hyprland";
-          user = "greeter";
-        };
-      };
-    };
 
     #blueman.enable = true; # maybe needed?
     #hardware.blutooth.enable = true;

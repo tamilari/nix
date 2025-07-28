@@ -24,7 +24,7 @@
 		  nixosConfigurations = {
 			  wini = lib.nixosSystem {
           system = systemSettings.system;
-          modules = [ ./configuration.nix hyprland.nixosModules.default ];
+          modules = [ ./configuration.nix ];
           specialArgs = {
             inherit systemSettings;
             inherit userSettings;
