@@ -89,6 +89,7 @@
   programs = {
     hyprland = {
       enable = true;
+      withUWSM = true;
       package = hyprland.packages.${pkgs.system}.hyprland;
       xwayland = {
         enable = true;
@@ -126,6 +127,31 @@
     #  enable = true;
     #  wlr.enable = true;
     #  extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    #};
+
+    #greetd = {
+    #  enable = true;
+    #  settings = {
+    #    default_session.command = "uwsm start default";
+    #    default_session.user = "tamino";
+    #  };
+    #};
+
+    #greetd = {
+    #  enable = true;
+    #  settings = {
+    #    default_session.command = "uwsm start select";
+    #  };
+    #};
+
+    #blueman.enable = true; # maybe needed?
+    #hardware.blutooth.enable = true;
+    #pipewire = {
+      #enable = true;
+      #alsa.enable = true;
+      #alsa.support32Bit = true;
+      #pulse.enable = true;
+      #jack.enable = true;
     #};
   };
 

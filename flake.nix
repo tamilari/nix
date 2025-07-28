@@ -24,7 +24,18 @@
 		  nixosConfigurations = {
 			  wini = lib.nixosSystem {
           system = systemSettings.system;
-				  modules = [ ./configuration.nix ];
+          modules = [ ./configuration.nix 
+            
+            hyprland.nixosModules.default {
+              services.greetd.enable = true;
+              services.greetd.settings = {
+                default_session = {
+                  command = "Hyprland";
+                  user = "tamino";
+                };
+              };
+            } 
+          ];
           specialArgs = {
             inherit systemSettings;
             inherit userSettings;
@@ -36,7 +47,7 @@
 		  homeConfigurations = {
 			  tamino = home-manager.lib.homeManagerConfiguration {
 				  inherit pkgs;
-				  modules = [ ./home.nix ];
+          modules = [ ./home.nix ];
           extraSpecialArgs = {
             inherit systemSettings;
             inherit userSettings;

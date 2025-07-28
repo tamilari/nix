@@ -86,7 +86,10 @@ in
 
       input = { # https://wiki.hyprland.org/Configuring/Variables/#input
         kb_layout = systemSettings.keyboard;
-        kb_options = "caps:swapescape,altwin:swap_lalt_lwin";
+        kb_options = "caps:escape,shift:both_capslock,altwin:swap_lalt_lwin";
+        #caps:swapescape      Swap Esc and Caps Lock
+        #caps:escape          Make Caps Lock an additional Esc
+        #caps:escape_shifted_capslock Make Caps Lock an additional Esc, but Shift + Caps Lock is the regular Caps Lock
         numlock_by_default = false;
         follow_mouse = 1;
         sensitivity = 0;
