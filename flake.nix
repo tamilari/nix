@@ -24,18 +24,7 @@
 		  nixosConfigurations = {
 			  wini = lib.nixosSystem {
           system = systemSettings.system;
-          modules = [ ./configuration.nix 
-            
-            hyprland.nixosModules.default {
-              services.greetd.enable = true;
-              services.greetd.settings = {
-                default_session = {
-                  command = "Hyprland";
-                  user = "tamino";
-                };
-              };
-            } 
-          ];
+          modules = [ ./configuration.nix hyprland.nixosModules.default ];
           specialArgs = {
             inherit systemSettings;
             inherit userSettings;

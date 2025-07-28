@@ -80,6 +80,7 @@
     slurp
     hyprpicker
     swappy
+    greetd.tuigreet
   ];
 
   #programs.hyprland = {
@@ -89,12 +90,13 @@
   programs = {
     hyprland = {
       enable = true;
-      withUWSM = true;
       package = hyprland.packages.${pkgs.system}.hyprland;
       xwayland = {
         enable = true;
       };
     };
+
+    regreet.enable = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -143,6 +145,16 @@
     #    default_session.command = "uwsm start select";
     #  };
     #};
+
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd Hyprland";
+          user = "greeter";
+        };
+      };
+    };
 
     #blueman.enable = true; # maybe needed?
     #hardware.blutooth.enable = true;
