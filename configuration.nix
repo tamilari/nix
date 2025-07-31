@@ -76,14 +76,12 @@
     brightnessctl
     playerctl
     wl-clipboard
+    cliphist
     grim
     slurp
     hyprpicker
     swappy
-    #where-is-my-sddm-theme
-    #sddm-astronaut
-    #catppuccin-sddm-corners
-    #sddm-chili-theme
+    catppuccin-sddm
   ];
 
   #programs.hyprland = {
@@ -111,7 +109,7 @@
   # List services that you want to enable:
 
 
-  
+
   services = {
     xserver = {
       enable = true;
@@ -123,10 +121,7 @@
     displayManager.sddm = {
       enable = true;
       wayland.enable = true;
-      #theme = "where_is_my_sddm_theme";
-      #theme = "sddm_astronaut";
-      #theme = "catppuccin-sddm-corners";
-      #theme = "sddm-chili-theme";
+      theme = "catppuccin-mocha";
 
       package = pkgs.kdePackages.sddm;
     };
@@ -145,21 +140,6 @@
     #  extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     #};
 
-    #greetd = {
-    #  enable = true;
-    #  settings = {
-    #    default_session.command = "uwsm start default";
-    #    default_session.user = "tamino";
-    #  };
-    #};
-
-    #greetd = {
-    #  enable = true;
-    #  settings = {
-    #    default_session.command = "uwsm start select";
-    #  };
-    #};
-
     #blueman.enable = true; # maybe needed?
     #hardware.blutooth.enable = true;
     #pipewire = {
@@ -172,7 +152,6 @@
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

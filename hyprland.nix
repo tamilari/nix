@@ -13,12 +13,16 @@ in
       monitor = ",preferred,auto,1";
       "$terminal" = "kitty";
       "$fileManager" = "nautilus";
+      "$browser" = "firefox";
       "$menu" = "wofi --show drun";
       exec-once = [
         "waybar"
         "$terminal"
-        "firefox"
+        "$browser"
         "sh -c 'wl-gammarelay-rs & sleep 1 && busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Temperature q 3000'"
+        "wl-paste --type text --watch cliphist store"
+        "wl-paste --type image --watch cliphist store"
+        "systemctl --user start hyprpolkitagent"
       ];
       general = { # https://wiki.hypr.land/Configuring/Variables/#general
         border_size = 2;
@@ -134,7 +138,8 @@ in
         "$mainMod, C, killactive,"
         "$mainMod, M, exit,"
         "$mainMod, E, exec, $fileManager"
-        "$mainMod, V, togglefloating,"
+        "$mainMod, B, exec, $browser"
+        "$mainMod, T, togglefloating,"
         "$mainMod, space, exec, $menu"
         "$mainMod, P, pseudo, # dwindle"
         "$mainMod, G, togglesplit, # dwindle"
@@ -142,6 +147,7 @@ in
         "$mainMod, X, exec, pkill -SIGUSR1 waybar"
         "$mainMod SHIFT, X, exec, sh -c 'pkill waybar && waybar &'"
         "$mainMod, tab, cyclenext,"
+        "$mainMod, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
         
         "$mainMod, H, movefocus, l"
         "$mainMod, L, movefocus, r"
