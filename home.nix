@@ -14,21 +14,20 @@ in
   home.username = userSettings.username;
   home.homeDirectory = "/home/"+userSettings.username;
 
-  services.ssh-agent.enable = true;
+  # try to only type ssh password once
+  #services.ssh-agent.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
   imports = [
     ./git.nix
-    #./hyprland.nix
-    ({ config, pkgs, lib, systemSettings, hyprland, ... }:
-      import ./hyprland.nix {
-        inherit config pkgs lib systemSettings hyprland;
-        # You will also need to pass userSettings if hyprland.nix uses it, e.g.:
-        # inherit userSettings;
-      }
-    )
+    ./hyprland.nix
+    #({ config, pkgs, lib, systemSettings, hyprland, ... }:
+    #  import ./hyprland.nix {
+    #    inherit config pkgs lib systemSettings hyprland;
+    #  }
+    #)
   ];
 
   # This value determines the Home Manager release that your configuration is

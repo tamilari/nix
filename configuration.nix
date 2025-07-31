@@ -96,6 +96,10 @@
         enable = true;
       };
     };
+
+    #ssh = { # try to only type ssh password once
+    #  startAgent = true;
+    #};
   };
 
   # Some programs need SUID wrappers, can be configured further or are
