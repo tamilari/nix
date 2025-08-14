@@ -105,6 +105,9 @@ in
   programs.bash = {
     enable = true;
     shellAliases = myAliases;
+    initExtra = ''
+      ssh-add -q ~/.ssh/id_ed25519 2>/dev/null
+    '';
   };
 
   programs.vim = {
@@ -128,6 +131,7 @@ in
       IdentityFile ~/.ssh/id_ed25519
     '';
   };
+
   services.ssh-agent.enable = true;
 }
 
