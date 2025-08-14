@@ -120,5 +120,14 @@ in
   };
 
   programs.kitty.enable = true;
+
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      AddKeysToAgent yes
+      IdentifyFile ~/.ssh/id_ed25519
+    '';
+  };
+  services.ssh-agent.enable = true;
 }
 
