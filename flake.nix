@@ -22,7 +22,7 @@
 			pkgs = nixpkgs.legacyPackages.${systemSettings.system};
 		in {
 		  nixosConfigurations = {
-			  wini = lib.nixosSystem {
+			  ${systemSettings.hostname} = lib.nixosSystem {
           system = systemSettings.system;
           modules = [ ./configuration.nix ];
           specialArgs = {
